@@ -4,7 +4,7 @@
 import requests
 import json
 import datetime
-import argparse
+import argparse, textwrap
 import yaml
 from requests_hawk import HawkAuth
 
@@ -47,7 +47,18 @@ def parse_arguments():
     parser = argparse.ArgumentParser(
         add_help=True,
         usage='%(prog)s [OPTIONS]',
-        description='Fill in daily work or holidays in Absence.io. It is always filling the whole week before as it is running or specified')
+        formatter_class=argparse.RawTextHelpFormatter,
+        description="Fill in daily work or holidays in Absence.io.It is always filling the whole week before as it is running or it has been specified \n \
+        - Use the data.yml to customize your inputs \n \
+              id: id from abscense.io \n \
+              key: key from absence.io \n \
+              starthour: Hour string to fill in as your start hour. Format: 'XX:YY' \n \
+              endhour: Hour string to fill in as your end hour. Format: 'XX:YY' \n \
+              typeofwork: Type of daily register. Allowed value: work \n \
+              skipdays: A list of days to be skipped in the registration. \n \
+                example: \n \
+                  skipdays: ['Monday', 'Tuesday'] \
+        ")
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         '--day',
