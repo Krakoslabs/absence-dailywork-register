@@ -48,7 +48,7 @@ def parse_arguments():
         add_help=True,
         usage='%(prog)s [OPTIONS]',
         formatter_class=argparse.RawTextHelpFormatter,
-        description="Fill in daily work or holidays in Absence.io.It is always filling the whole week before as it is running or it has been specified \n \
+        description="Fill in daily work in Absence.io.It is always filling the whole week before as it is running or it has been specified \n \
         - Use the data.yml to customize your inputs \n \
               id: id from abscense.io \n \
               key: key from absence.io \n \
