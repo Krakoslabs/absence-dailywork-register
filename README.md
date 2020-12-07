@@ -40,7 +40,7 @@ skipdays: []
 ```
 usage: absence.py [OPTIONS]
 
-Fill in daily work or holidays in Absence.io.It is always filling the whole week before as it is running or it has been specified
+Fill in daily work in Absence.io.It is always filling the whole week before as it is running or it has been specified
          - Use the data.yml to customize your inputs
                id: id from abscense.io
                key: key from absence.io
