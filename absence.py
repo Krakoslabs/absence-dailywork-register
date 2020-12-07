@@ -76,7 +76,7 @@ def parse_arguments():
 
 def main():
   args = parse_arguments()
-  data=readdata(DATA_FILE)
+  data = readdata(DATA_FILE)
 
   if args.week:
     today_obj = datetime.date.today()
@@ -84,9 +84,11 @@ def main():
   else:
     monday_ago = previous_week_range(datetime.date(int(args.day[:4]), int(args.day[5:7]), int(args.day[8:])))
 
+  obj_date = datetime.datetime.strptime(monday_ago, "%Y-%m-%d")
+
   for i in range(5):
     if daysofweek[i] not in data['skipdays']:
-      sendwork(day="%s-%s" % (monday_ago[:7], int(monday_ago[8:]) + i),
+      sendwork(day="%s" % (obj_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d'),
               id=data['id'],
               key=data['key'],
               typeofwork=data['typeofwork'],
