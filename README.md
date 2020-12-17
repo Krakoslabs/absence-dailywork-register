@@ -5,7 +5,7 @@ Register daily work hours in absence.io
 1.- Clone repository and install python requirements
 
 ```
-git clone git@github.com:Krakoslabs/absence-dailywork-register.git
+git clone https://github.com/Krakoslabs/absence-dailywork-register.git
 cd absence-dailywork-register
 pip install -r requirements.txt
 ```
