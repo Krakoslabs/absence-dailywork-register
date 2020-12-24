@@ -55,9 +55,6 @@ def parse_arguments():
               starthour: Hour string to fill in as your start hour. Format: 'XX:YY' \n \
               endhour: Hour string to fill in as your end hour. Format: 'XX:YY' \n \
               typeofwork: Type of daily register. Allowed value: work \n \
-              skipdays: A list of days to be skipped in the registration. \n \
-                example: \n \
-                  skipdays: ['Monday', 'Tuesday'] \
         ")
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -71,8 +68,17 @@ def parse_arguments():
         '-w',
         dest='week',
         action="store_true",
-        help='Use to fill in the whole previus week. Use to be croned in your computer')
+        help='Used to fill in the whole previus week. Use to be croned in your computer')
+    parser.add_argument(
+      "--exclusion",
+      "-e",
+      dest='exclusion',
+      help='Specify the days of the week that should not be filled')
     return parser.parse_args()
+
+def Convert(string):
+  li = list(string.split(" "))
+  return li
 
 def main():
   args = parse_arguments()
@@ -86,8 +92,11 @@ def main():
 
   obj_date = datetime.datetime.strptime(monday_ago, "%Y-%m-%d")
 
+  li = Convert(args.exclusion)
+  print("day to be excluded: {}".format(li))
+
   for i in range(5):
-    if daysofweek[i] not in data['skipdays']:
+    if daysofweek[i] not in li:
       sendwork(day="%s" % (obj_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d'),
               id=data['id'],
               key=data['key'],
