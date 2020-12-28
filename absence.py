@@ -48,13 +48,17 @@ def parse_arguments():
         add_help=True,
         usage='%(prog)s [OPTIONS]',
         formatter_class=argparse.RawTextHelpFormatter,
-        description="Fill in daily work in Absence.io.It is always filling the whole week before as it is running or it has been specified \n \
+        description="Fill in daily work in Absence.io. It is always filling the whole week before as it is running or it has been specified \n\n \
+        - Days of the week can be excluded by means of:\n \
+            - Argument -e. This option has preference over the data.yml file. \n \
+            - data.yml file \n\n \
         - Use the data.yml to customize your inputs \n \
               id: id from abscense.io \n \
               key: key from absence.io \n \
               starthour: Hour string to fill in as your start hour. Format: 'XX:YY' \n \
               endhour: Hour string to fill in as your end hour. Format: 'XX:YY' \n \
               typeofwork: Type of daily register. Allowed value: work \n \
+              skipdays: List of the days to be excluded. Format: [Monday,Wednesday] \n \
         ")
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -73,13 +77,14 @@ def parse_arguments():
       "--exclusion",
       "-e",
       dest='exclusion',
-      help='Specify the days of the week that should not be filled',
+      help='Specify the days of the week that should not be filled \n \
+           Example: absence.py -w -e "Monday Friday"',
       default="file")
     return parser.parse_args()
 
 def Convert(string):
-  li = list(string.split(" "))
-  return li
+  excludedDays = list(string.split(" "))
+  return excludedDays
 
 def main():
   args = parse_arguments()
@@ -93,23 +98,20 @@ def main():
 
   obj_date = datetime.datetime.strptime(monday_ago, "%Y-%m-%d")
 
-  li = Convert(args.exclusion)
+  excludedDays = Convert(args.exclusion)
   
 
-  if "file" in li:
-    print("No day have been specified as argument -> Checking data.yml file")
-    li = data['skipdays']
+  if "file" in excludedDays:
+    excludedDays = data['skipdays']
 
   for i in range(5):
-      if daysofweek[i] not in li:
+      if daysofweek[i] not in excludedDays:
        sendwork(day="%s" % (obj_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d'),
               id=data['id'],
               key=data['key'],
               typeofwork=data['typeofwork'],
               starthour=str(data['starthour']),
               endhour=str(data['endhour']))
-
-  print("Excluded days: {}".format(li))
 
 if __name__ == '__main__':
     main()
