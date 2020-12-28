@@ -73,7 +73,8 @@ def parse_arguments():
       "--exclusion",
       "-e",
       dest='exclusion',
-      help='Specify the days of the week that should not be filled')
+      help='Specify the days of the week that should not be filled',
+      default="file")
     return parser.parse_args()
 
 def Convert(string):
@@ -93,16 +94,22 @@ def main():
   obj_date = datetime.datetime.strptime(monday_ago, "%Y-%m-%d")
 
   li = Convert(args.exclusion)
-  print("day to be excluded: {}".format(li))
+  
+
+  if "file" in li:
+    print("No day have been specified as argument -> Checking data.yml file")
+    li = data['skipdays']
 
   for i in range(5):
-    if daysofweek[i] not in li:
-      sendwork(day="%s" % (obj_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d'),
+      if daysofweek[i] not in li:
+       sendwork(day="%s" % (obj_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d'),
               id=data['id'],
               key=data['key'],
               typeofwork=data['typeofwork'],
               starthour=str(data['starthour']),
               endhour=str(data['endhour']))
+
+  print("Excluded days: {}".format(li))
 
 if __name__ == '__main__':
     main()
