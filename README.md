@@ -40,19 +40,26 @@ skipdays: []
 ```
 usage: absence.py [OPTIONS]
 
-Fill in daily work in Absence.io.It is always filling the whole week before as it is running or it has been specified
+Fill in daily work in Absence.io. It is always filling the whole week before as it is running or it has been specified
+
+         - Days of the week can be excluded by means of:
+             - Argument -e. This option has preference over the data.yml file.
+             - data.yml file
+
          - Use the data.yml to customize your inputs
                id: id from abscense.io
                key: key from absence.io
                starthour: Hour string to fill in as your start hour. Format: 'XX:YY'
                endhour: Hour string to fill in as your end hour. Format: 'XX:YY'
                typeofwork: Type of daily register. Allowed value: work
-               skipdays: A list of days to be skipped in the registration.
-                 example:
-                   skipdays: ['Monday', 'Tuesday']
+               skipdays: List of the days to be excluded. Format: [Monday,Wednesday]
+
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --day DAY, -d DAY  Specify a date to fill the previous week of this day with this format: YYYY-MM-dd
-  --week, -w         Use to fill in the whole previus week. Use to be croned in your computer
+  -h, --help            show this help message and exit
+  --day DAY, -d DAY     Specify a date to fill the previous week of this day with this format: YYYY-MM-dd
+  --week, -w            Used to fill in the whole previus week. Use to be croned in your computer
+  --exclusion EXCLUSION, -e EXCLUSION
+                        Specify the days of the week that should not be filled
+                                    Example: absence.py -w -e "Monday Friday"
 ```
