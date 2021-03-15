@@ -7,7 +7,7 @@ Register daily work hours in absence.io
 ```
 git clone https://github.com/Krakoslabs/absence-dailywork-register.git
 cd absence-dailywork-register
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 2.- Create tokenid for your user in absence.io
